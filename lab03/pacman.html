@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta viewport="width=device-width, initial-scale=1.0">
     <title>PacMan 1D</title>
 </head>
 <body>
@@ -11,6 +11,8 @@
     <div id="gameBoard"></div>
 
     <script>
+        let currentGame;
+
         function createGame(n) {
             let gameBoard = new Array(n).fill(".");
             const pacmanIndex = Math.floor(Math.random() * n);
@@ -28,9 +30,43 @@
             return gameBoard;
         }
 
+        function updateGameBoard() {
+            document.getElementById('gameBoard').innerText = currentGame.join(" ");
+        }
+
         document.getElementById('startGame').addEventListener('click', function() {
-            const game = createGame(10);
-            document.getElementById('gameBoard').innerText = game.join(" ");
+            currentGame = createGame(10);
+            updateGameBoard();
+        });
+
+        function moveLeft(game) {
+            const pacmanIndex = game.indexOf("C");
+            game[pacmanIndex] = ".";
+            if (pacmanIndex === 0) {
+                game[game.length - 1] = "C";
+            } else {
+                game[pacmanIndex - 1] = "C";
+            }
+        }
+
+        function moveRight(game) {
+            const pacmanIndex = game.indexOf("C");
+            game[pacmanIndex] = ".";
+            if (pacmanIndex === game.length - 1) {
+                game[0] = "C";
+            } else {
+                game[pacmanIndex + 1] = "C";
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowLeft") {
+                moveLeft(currentGame);
+                updateGameBoard();
+            } else if (event.key === "ArrowRight") {
+                moveRight(currentGame);
+                updateGameBoard();
+            }
         });
     </script>
 </body>
