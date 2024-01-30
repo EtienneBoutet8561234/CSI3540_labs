@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PacMan 1D</title>
+</head>
+<body>
+    <h1>PacMan 1D</h1>
+    <button id="startGame">Démarrer le jeu</button>
+    <div id="gameBoard"></div>
+
+    <script>
+        function createGame(n) {
+            let gameBoard = new Array(n).fill(".");
+            const pacmanIndex = Math.floor(Math.random() * n);
+            const ghostIndex = Math.floor(Math.random() * n);
+            const fruitIndex = Math.floor(Math.random() * n);
+
+            gameBoard[pacmanIndex] = "C";
+            if (ghostIndex !== pacmanIndex) {
+                gameBoard[ghostIndex] = "^";
+            }
+            if (fruitIndex !== pacmanIndex && fruitIndex !== ghostIndex) {
+                gameBoard[fruitIndex] = "@";
+            }
+
+            return gameBoard;
+        }
+
+        document.getElementById('startGame').addEventListener('click', function() {
+            const game = createGame(10);
+            document.getElementById('gameBoard').innerText = game.join(" ");
+        });
+    </script>
+</body>
+</html>
