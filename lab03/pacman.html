@@ -9,6 +9,7 @@
     <h1>PacMan 1D</h1>
     <button id="startGame">Démarrer le jeu</button>
     <div id="gameBoard"></div>
+    <p>Score: <span id="score">0</span></p>
 
     <script>
         let currentGame;
@@ -29,9 +30,14 @@
 
             return gameBoard;
         }
-
+        function eatDot(index) {
+    if (currentGame[index] === ".") {
+        score++;
+    }
+}
         function updateGameBoard() {
             document.getElementById('gameBoard').innerText = currentGame.join(" ");
+            ent.getElementById('score').innerText = score;
         }
 
         document.getElementById('startGame').addEventListener('click', function() {
@@ -40,24 +46,20 @@
         });
 
         function moveLeft(game) {
-            const pacmanIndex = game.indexOf("C");
-            game[pacmanIndex] = ".";
-            if (pacmanIndex === 0) {
-                game[game.length - 1] = "C";
-            } else {
-                game[pacmanIndex - 1] = "C";
-            }
-        }
+    const pacmanIndex = game.indexOf("C");
+    game[pacmanIndex] = ".";
+    let newIndex = pacmanIndex === 0 ? game.length - 1 : pacmanIndex - 1;
+    eatDot(newIndex);  // Mise à jour pour manger un point
+    game[newIndex] = "C";
+}
 
-        function moveRight(game) {
-            const pacmanIndex = game.indexOf("C");
-            game[pacmanIndex] = ".";
-            if (pacmanIndex === game.length - 1) {
-                game[0] = "C";
-            } else {
-                game[pacmanIndex + 1] = "C";
-            }
-        }
+function moveRight(game) {
+    const pacmanIndex = game.indexOf("C");
+    game[pacmanIndex] = ".";
+    let newIndex = pacmanIndex === game.length - 1 ? 0 : pacmanIndex + 1;
+    eatDot(newIndex);  // Mise à jour pour manger un point
+    game[newIndex] = "C";
+}
 
         document.addEventListener('keydown', function(event) {
             if (event.key === "ArrowLeft") {
